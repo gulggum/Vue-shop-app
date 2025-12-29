@@ -9,9 +9,18 @@ export const useUiStore = defineStore("ui", () => {
   const toggleSidebar = () => {
     isSidebarOpen.value = !isSidebarOpen.value;
   };
+  const closeSidebar = () => {
+    isSidebarOpen.value = false;
+  };
   const toggleTheme = () => {
     isDarkTheme.value = !isDarkTheme.value;
   };
 
-  return { isSidebarOpen, toggleSidebar, isDarkTheme, toggleTheme };
+  return {
+    isSidebarOpen,
+    toggleSidebar,
+    isDarkTheme,
+    toggleTheme,
+    closeSidebar,
+  };
 });
