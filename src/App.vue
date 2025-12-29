@@ -1,7 +1,9 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import Header from "./components/Header.vue";
+</script>
 
 <template>
-  <div>뷰쇼핑몰 시작</div>
+  <Header />
 </template>
 
 <style scoped>
