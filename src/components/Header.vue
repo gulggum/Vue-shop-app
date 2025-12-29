@@ -21,7 +21,9 @@ const uiStore = useUiStore();
         </button>
         <div class="search_area">
           <input class="search_input" type="text" placeholder="검색..." />
-          <button><font-awesome-icon icon="magnifying-glass" /></button>
+          <button @click="uiStore.toggleSearchInput">
+            <font-awesome-icon icon="magnifying-glass" />
+          </button>
         </div>
         <button class="cart"><font-awesome-icon icon="shopping-cart" /></button>
       </div>
@@ -42,6 +44,12 @@ const uiStore = useUiStore();
         >
       </div>
     </div>
+    <input
+      v-show="uiStore.isSearchOpen"
+      class="mobile_search_input"
+      type="text"
+      placeholder="검색..."
+    />
   </header>
 </template>
 
@@ -65,7 +73,7 @@ header {
   align-items: center;
 }
 .right_area {
-  width: 4cm;
+  width: 40%;
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -83,6 +91,12 @@ header {
 }
 .search_input {
   display: none;
+}
+.mobile_search_input {
+  box-sizing: border-box;
+  position: absolute;
+  width: 100%;
+  height: 40px;
 }
 
 /* 사이드바 */
