@@ -3,9 +3,20 @@ import fashionImg from "../assets/img/carousel/img_shop_fashion.jpeg";
 import digitalImg from "../assets/img/carousel/img_shop_digital.jpeg";
 import groceryImg from "../assets/img/carousel/img_shop_grocery.jpeg";
 import { useSliderStore } from "../store/slider";
-import { ref } from "vue";
+import { onMounted, onUnmounted, ref } from "vue";
 
 const sliderStore = useSliderStore();
+const slideCount = 3; //슬라이드 개수
+let interval: number;
+onMounted(() => {
+  interval = setInterval(() => {
+    sliderStore.currentIndex = (sliderStore.currentIndex + 1) % slideCount;
+  }, 3000);
+});
+onUnmounted(() => {
+  //슬라이드가 보이지 않는 상태에선 제거
+  clearInterval(interval);
+});
 const items = ref([
   {
     name: "clothing",
