@@ -12,6 +12,7 @@ import {
   faSun,
   faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
+import router from "./router/router";
 
 library.add(faShoppingCart, faBars, faMoon, faSun, faMagnifyingGlass);
 
@@ -19,6 +20,7 @@ const app = createApp(App);
 const pinia = createPinia();
 const queryClient = new QueryClient();
 
+app.use(router);
 app.use(VueQueryPlugin, { queryClient });
 app.use(pinia);
 app.component("font-awesome-icon", FontAwesomeIcon);
