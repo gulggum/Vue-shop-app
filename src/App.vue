@@ -1,9 +1,12 @@
 <script setup lang="ts">
+//setup꼭 써주기(템플릿에서 자동으로 노출되도록)
 import Header from "./components/Header.vue";
+import Slider from "./components/Slider.vue";
 </script>
 
 <template>
   <Header />
+  <Slider />
 </template>
 
 <style scoped>
