@@ -1,0 +1,17 @@
+/* 기본(라이트 테마) */
+:root {
+  --color-bg: #f9f8f6;
+  --color-line: #c9b59c;
+  --color-item-bg: #f2f2f2;
+  --color-text: #222;
+  --color-hover: #e6d8c3;
+}
+
+/* 다크 테마 */
+[data-theme="dark"] {
+  --color-bg: #1b211a;
+  --color-line: #957c62;
+  --color-item-bg: #555;
+  --color-text: #f9f8f6;
+  --color-hover: #e6d8c3;
+}

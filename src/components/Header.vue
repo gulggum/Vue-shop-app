@@ -97,6 +97,7 @@ header {
   position: absolute;
   width: 100%;
   height: 40px;
+  z-index: 5;
 }
 
 /* 사이드바 */
@@ -127,6 +128,7 @@ header {
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
 }
 .sidebar {
   width: 200px;

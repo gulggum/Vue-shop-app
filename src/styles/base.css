@@ -1,7 +1,25 @@
 html,
 body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  width: 100vw;
+  margin: 0 auto;
   height: 100%;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   background-color: #fff;
   color: #111;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+@media screen and (max-width: 768px) {
+  body {
+    font-size: 0.8rem;
+  }
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  padding: 10px;
+  border-radius: 5px;
 }
