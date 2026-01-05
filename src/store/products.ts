@@ -3,7 +3,7 @@ import { fetchProducts, type Product } from "./../api/fetchProduct";
 import { defineStore } from "pinia";
 import { normalizeCategory } from "../utils/normalizeCategory";
 
-export const useProductsStore = defineStore("products", async () => {
+export const useProductsStore = defineStore("products", () => {
   const products = ref<Product[]>([]);
 
   const loadProducts = async () => {
@@ -22,9 +22,23 @@ export const useProductsStore = defineStore("products", async () => {
     );
   });
 
+  /** 🔹 카테고리별 상품 필터 */
+  const getProductsByCategory = (category: string) => {
+    return products.value.filter((product) => product.topCategory === category);
+  };
+
+  const getProductById = async (id: number): Promise<Product | undefined> => {
+    if (!products.value.length) {
+      await loadProducts();
+    }
+    return products.value.find((product) => product.id === id);
+  };
+
   return {
-    loadProducts,
     products, //상품리스트,필터링 활용
     categories, //Nav메뉴,breadcrumb 활용
+    getProductById,
+    loadProducts,
+    getProductsByCategory,
   };
 });
