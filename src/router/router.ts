@@ -2,6 +2,7 @@ import { createWebHistory, createRouter } from "vue-router";
 import Home from "../views/Home.vue";
 import MainLayout from "../layouts/MainLayout.vue";
 import ProductDetail from "../components/ProductDetail.vue";
+import ListPage from "../views/ListPage.vue";
 
 const routes = [
   {
@@ -9,12 +10,17 @@ const routes = [
     component: MainLayout,
     children: [
       {
-        path: "/",
+        path: "",
         name: "home",
         component: Home,
       },
       {
-        path: "products/:id",
+        path: ":category",
+        name: "category",
+        component: ListPage,
+      },
+      {
+        path: "product/:id",
         name: "product-detail",
         component: ProductDetail,
       },

@@ -1,8 +1,17 @@
 <script setup lang="ts">
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { useUiStore } from "../store/ui";
+import { useProductsStore } from "../store/products";
+import { onMounted } from "vue";
+import { RouterLink } from "vue-router";
+import { CATEGORY_KR } from "../utils/normalizeCategory";
 
-const uiStore = useUiStore();
+const uiStore = useUiStore(); //ui토글용
+const productsStore = useProductsStore(); //카테고리 용
+
+onMounted(async () => {
+  await productsStore.loadProducts();
+});
 </script>
 
 <template>
@@ -12,7 +21,9 @@ const uiStore = useUiStore();
         <button class="mobile_menuBarBtn" @click="uiStore.toggleSidebar">
           <font-awesome-icon icon="bars" />
         </button>
-        <h1 class="logo">Vue Shop</h1>
+        <h1 class="logo">
+          <router-link to="/">Vue Shop</router-link>
+        </h1>
       </div>
 
       <div class="right_area">
@@ -27,7 +38,7 @@ const uiStore = useUiStore();
         </div>
         <button class="cart"><font-awesome-icon icon="shopping-cart" /></button>
       </div>
-      <!-- 사이드바 -->
+      <!-- 모바일전용 사이드바 -->
       <div
         v-show="uiStore.isSidebarOpen"
         @click="uiStore.closeSidebar"
@@ -36,9 +47,16 @@ const uiStore = useUiStore();
         <transition name="slide"
           ><aside v-show="uiStore.isSidebarOpen" class="sidebar" @click.stop>
             <ul class="menu">
-              <li>의류</li>
-              <li>쥬얼리</li>
-              <li>전자</li>
+              <li
+                class="menu_link"
+                v-for="category in productsStore.categories"
+                @click="
+                  $router.push({ name: 'category', params: { category } });
+                  uiStore.closeSidebar();
+                "
+              >
+                {{ CATEGORY_KR[category] }}
+              </li>
             </ul>
           </aside></transition
         >
@@ -135,5 +153,8 @@ header {
   height: 100%;
   background-color: white;
   padding: 2em;
+}
+.menu_link {
+  cursor: pointer;
 }
 </style>

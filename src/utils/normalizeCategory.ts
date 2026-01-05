@@ -13,3 +13,11 @@ export const CATEGORY_KR: Record<TopCategory, string> = {
   electronics: "디지털",
   jewelery: "악세서리",
 };
+
+//가격 달러표기
+export const formatUSD = (price: number) => {
+  return price.toLocaleString("en-US", {
+    style: "currency",
+    currency: "USD",
+  });
+};
