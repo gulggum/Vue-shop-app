@@ -20,7 +20,7 @@ const routes = [
         component: ListPage,
       },
       {
-        path: "product/:id",
+        path: ":category/:id",
         name: "product-detail",
         component: ProductDetail,
       },

@@ -11,10 +11,18 @@ import {
   faMoon,
   faSun,
   faMagnifyingGlass,
+  faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 import router from "./router/router";
 
-library.add(faShoppingCart, faBars, faMoon, faSun, faMagnifyingGlass);
+library.add(
+  faShoppingCart,
+  faBars,
+  faMoon,
+  faSun,
+  faMagnifyingGlass,
+  faChevronRight
+);
 
 const app = createApp(App);
 const pinia = createPinia();
