@@ -2,16 +2,41 @@
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { useUiStore } from "../store/ui";
 import { useProductsStore } from "../store/products";
-import { onMounted } from "vue";
+import { computed, onMounted } from "vue";
 import { RouterLink } from "vue-router";
 import { CATEGORY_KR } from "../utils/normalizeCategory";
+import { useSearchStore } from "../store/search";
+import type { Product } from "../api/fetchProduct";
+import router from "../router/router";
 
 const uiStore = useUiStore(); //ui토글용
 const productsStore = useProductsStore(); //카테고리 용
+const searchStore = useSearchStore();
+
+defineProps<{
+  title: string;
+  products: Product[];
+}>();
 
 onMounted(async () => {
   await productsStore.loadProducts();
 });
+
+//키워드 필터링
+const filteredProducts = computed(() => {
+  const keyword = searchStore.keyword.trim();
+
+  if (!keyword) return [];
+
+  return productsStore.products.filter((product) =>
+    product.title.toLocaleLowerCase().includes(keyword.toLocaleLowerCase())
+  );
+});
+
+const goDetail = (product: Product) => {
+  searchStore.clearKeyword();
+  router.push(`/${product.topCategory}/${product.id}`);
+};
 </script>
 
 <template>
@@ -62,29 +87,43 @@ onMounted(async () => {
         >
       </div>
     </div>
-    <input
-      v-show="uiStore.isSearchOpen"
-      class="mobile_search_input"
-      type="text"
-      placeholder="검색..."
-    />
+    <div class="mobile_search_input_area">
+      <input
+        v-show="uiStore.isSearchOpen"
+        v-model="searchStore.keyword"
+        class="mobile_search_input"
+        type="text"
+        placeholder="검색..."
+      />
+      <ul v-if="searchStore.keyword" class="mobile_search_dropdown">
+        <li
+          v-for="product in filteredProducts"
+          @click="goDetail(product)"
+          class="mobile_search_list"
+        >
+          {{ product.title }}
+        </li>
+      </ul>
+    </div>
   </header>
 </template>
 
 <style scoped>
 header {
-  width: 100%;
+  max-width: 1200px;
   height: 56px;
   justify-content: center;
+  margin: 0 auto;
 }
 .header_wrapper {
-  max-width: 1200px;
+  width: 100%;
   height: 56px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   background-color: orange;
   padding: 0 16px;
+  box-sizing: border-box;
 }
 .left_area {
   display: flex;
@@ -107,8 +146,13 @@ header {
   font-size: 1.5em;
   font-weight: 800;
 }
+/* 검색창 리스트 */
 .search_input {
   display: none;
+}
+
+.mobile_search_input_area {
+  position: relative;
 }
 .mobile_search_input {
   box-sizing: border-box;
@@ -116,6 +160,22 @@ header {
   width: 100%;
   height: 40px;
   z-index: 5;
+}
+
+.mobile_search_dropdown {
+  position: absolute;
+  top: 40px;
+  width: 100%;
+  height: 300px;
+  background-color: wheat;
+  z-index: 2000;
+}
+.mobile_search_list {
+  padding: 10px 5px;
+  cursor: pointer;
+}
+.mobile_search_list :hover {
+  background-color: var(--color-hover);
 }
 
 /* 사이드바 */
