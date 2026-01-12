@@ -2,15 +2,16 @@
 import { useQuery } from "@tanstack/vue-query";
 import { useRoute } from "vue-router";
 import { useProductsStore } from "../store/products";
-import { computed, onMounted } from "vue";
+import { onMounted } from "vue";
 import type { Product } from "../api/fetchProduct";
 import { formatUSD } from "../utils/normalizeCategory";
+import { useCartStore } from "../store/cart";
 
 const productsStore = useProductsStore();
+const cartStore = useCartStore();
 const route = useRoute();
 const id = Number(route.params.id); //number로 통일
 
-console.log("😍" + typeof id);
 //store에서 products불러오기
 onMounted(async () => {
   if (!productsStore.getProductsByCategory) {
@@ -24,22 +25,14 @@ const { data: product } = useQuery<Product | undefined>({
   enabled: !!id,
 });
 
-//카테고리/breadcrumb 계산
-const breadcrumb = computed(() => {
-  const found = productsStore.products.find((p) => p.id === +id);
-  return found ? ["홈 >", found.topCategory, "> " + found.title] : ["홈"];
-});
+const addItem = (product: Product) => {
+  cartStore.addToCart(product);
+  console.log("나 상품 들어왔어!", product);
+};
 </script>
 
 <template>
-  <Nav>
-    <ul class="breadcrumb">
-      <li v-for="(item, index) in breadcrumb" :key="index">
-        {{ item }}
-      </li>
-    </ul>
-  </Nav>
-  <div class="detail_container">
+  <main class="detail_container">
     <div class="detail_product">
       <div class="detail_imageBox">
         <img :src="product?.image" :alt="product?.title" />
@@ -50,30 +43,31 @@ const breadcrumb = computed(() => {
         <div class="ratingBox"></div>
         <div class="detail_price">{{ formatUSD(product?.price ?? 0) }}</div>
         <div class="cartNav_button">
-          <button class="addCart">장바구니에 담기</button>
+          <button
+            class="addCart"
+            :disabled="!product"
+            @click="product && addItem(product)"
+          >
+            장바구니에 담기
+          </button>
           <button class="goToCart">장바구니로 이동</button>
         </div>
       </div>
     </div>
-  </div>
+  </main>
 </template>
 
 <style scoped>
-.breadcrumb {
-  display: flex;
-  li {
-    margin-right: 10px;
-  }
-}
-
 .detail_container {
   max-width: 1200px;
   margin: 0 auto;
-  margin-top: 10px;
+  box-sizing: border-box;
 }
 
 .detail_product {
   width: 100%;
+  box-sizing: border-box;
+  padding: 20px;
   height: auto;
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -87,6 +81,7 @@ const breadcrumb = computed(() => {
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: var(--color-item-bg);
   img {
     width: 200px;
   }
@@ -110,5 +105,17 @@ const breadcrumb = computed(() => {
 .detail_price {
   font-size: 2.6em;
   font-weight: 600;
+}
+.addCart {
+  background-color: #400bb4;
+  color: white;
+}
+.addCart:hover {
+}
+.goToCart {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  border: 1px solid var(--color-text);
+  margin-left: 10px;
 }
 </style>
