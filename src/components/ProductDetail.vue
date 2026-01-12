@@ -50,7 +50,9 @@ const addItem = (product: Product) => {
           >
             장바구니에 담기
           </button>
-          <button class="goToCart">장바구니로 이동</button>
+          <router-link to="/cart">
+            <button class="goToCart">장바구니로 이동</button>
+          </router-link>
         </div>
       </div>
     </div>

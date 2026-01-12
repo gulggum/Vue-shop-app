@@ -3,6 +3,7 @@ import Home from "../views/Home.vue";
 import MainLayout from "../layouts/MainLayout.vue";
 import ProductDetail from "../components/ProductDetail.vue";
 import ListPage from "../views/ListPage.vue";
+import CartPage from "../views/CartPage.vue";
 
 const routes = [
   {
@@ -23,6 +24,11 @@ const routes = [
         path: ":category/:id",
         name: "product-detail",
         component: ProductDetail,
+      },
+      {
+        path: "cart",
+        name: "cartPage",
+        component: CartPage,
       },
     ],
   },
