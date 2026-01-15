@@ -1,12 +1,13 @@
 # Vue Shop App 🛍️ [Vue 쇼핑몰 프로젝트 클론코딩]
 
-🚧 React 프로젝트를 기반으로 Vue 버전 구현
+🔗 배포 주소: https://vue-shop-app-kappa.vercel.app/
 
-- 2025/12/26 ~ 2025/01/15
+React 프로젝트를 기반으로 Vue 버전 구현 📅 개발 기간: 2025/12/26 ~ 2025/01/15
 
 ## 프로젝트 소개
 
 Vue 3 + TypeScript + Vite 기반 쇼핑몰 프로젝트
+원본 React 코드[GitHub]:(https://github.com/gulggum/React-shop-app)
 
 ## 사용 기술
 
