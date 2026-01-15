@@ -53,6 +53,7 @@ Vue 3 + TypeScript + Vite 기반 쇼핑몰 프로젝트
   - Vue Router 기반 페이지 라우팅
   - MainLayout + children(RouterView) 구조
   - NotFound(404) 페이지 구현
+  - 카테고리 라우트는 /clothing, /electronics, /jewelery 등 유효한 값만 처리되며, 다른 값은 NotFound 페이지로 안내(정규식 기반 매칭으로 구현, 데이터 확장 시 검증 로직으로 전환 가능)
 - **공통 UI**
   - Header : 다크/라이트 테마 토글 , 모바일 햄버거 메뉴
   - Sidebar : Pinia로 상태관리(store) , 오버레이 클릭시 닫힘 처리
