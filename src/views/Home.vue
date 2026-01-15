@@ -1,6 +1,5 @@
 <script setup>
 import ProductList from "../components/ProductList.vue";
-import Slider from "../components/Slider.vue";
 import { useProductsStore } from "../store/products";
 import { computed } from "vue";
 
@@ -21,7 +20,6 @@ const jewelryProducts = computed(() =>
 
 <template>
   <main class="home_container">
-    <Slider />
     <ProductList title="패션" :products="clothingProducts" />
     <ProductList title="디지털" :products="electronicsProducts" />
     <ProductList title="악세서리" :products="jewelryProducts" />

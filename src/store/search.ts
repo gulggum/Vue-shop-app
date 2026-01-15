@@ -11,6 +11,5 @@ export const useSearchStore = defineStore("search", () => {
   const clearKeyword = () => {
     keyword.value = "";
   };
-  console.log(keyword.value);
   return { keyword, setKeyword, clearKeyword };
 });

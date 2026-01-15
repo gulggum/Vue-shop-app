@@ -27,10 +27,8 @@ const onBuying = () => {
   <div class="cart-container">
     <h2 class="page-title">Shopping Cart</h2>
 
-    <!-- 장바구니 비어있을 때 -->
     <p v-if="cartStore.items.length === 0">장바구니가 비어있습니다.</p>
 
-    <!-- 장바구니 아이템 -->
     <ul v-else class="cart_wrap">
       <li v-for="item in cartStore.items" :key="item.id" class="cart-item">
         <!-- 이미지 -->
@@ -62,7 +60,6 @@ const onBuying = () => {
           </span>
         </div>
 
-        <!-- 버튼 영역 -->
         <div class="control_buttons">
           <button>Buy Now</button>
           <button @click="cartStore.removeFromCart(item.id)">Delete</button>
@@ -70,7 +67,6 @@ const onBuying = () => {
       </li>
     </ul>
 
-    <!-- 총 금액 -->
     <div v-if="cartStore.items.length > 0" class="total_price">
       <span>Total Price:</span>
       <span>{{ formatUSD(cartStore.totalPrice) }}</span>
@@ -88,16 +84,6 @@ const onBuying = () => {
   font-size: 1rem;
 }
 
-/* @media (max-width: 768px) {
-  .cart-container {
-    font-size: 0.8rem;
-  }
-
-  .cart-container img {
-    width: 50px;
-  }
-} */
-
 .page-title {
   font-size: 2em;
   font-weight: 500;
@@ -113,17 +99,12 @@ const onBuying = () => {
 .cart-item {
   width: 100%;
   height: 250px;
+  padding: 20px;
   display: flex;
   align-items: center;
-  background-color: var(--item-bg);
+  background-color: var(--color-item-bg);
   margin-bottom: 10px;
 }
-
-/* @media (max-width: 768px) {
-  .cart-item {
-    height: 140px;
-  }
-} */
 
 .item_image_wrapper {
   width: 300px;
@@ -132,12 +113,6 @@ const onBuying = () => {
   justify-content: center;
   align-items: center;
 }
-
-/* @media (max-width: 768px) {
-  .item_image_wrapper {
-    width: 100px;
-  }
-} */
 
 .item_image {
   width: 120px;
@@ -204,12 +179,6 @@ const onBuying = () => {
   margin-top: 30px;
 }
 
-/* @media (max-width: 768px) {
-  .count_price {
-    margin: 0;
-  }
-} */
-
 .control_buttons {
   padding: 10px;
   display: flex;
@@ -227,12 +196,6 @@ const onBuying = () => {
 .control_buttons button:hover {
   background-color: var(--hover);
 }
-
-/* @media (max-width: 768px) {
-  .control_buttons button {
-    margin: 0;
-  }
-} */
 
 .total_price {
   box-sizing: border-box;
@@ -269,5 +232,27 @@ const onBuying = () => {
 .buying_button:hover {
   background-color: #400bb4;
   transition: all 0.4s ease;
+}
+
+@media (max-width: 768px) {
+  .cart-container {
+    font-size: 0.8rem;
+  }
+
+  .cart-container img {
+    width: 50px;
+  }
+  .cart-item {
+    height: 140px;
+  }
+  .item_image_wrapper {
+    width: 100px;
+  }
+  .count_price {
+    margin: 0;
+  }
+  .control_buttons button {
+    margin: 0;
+  }
 }
 </style>

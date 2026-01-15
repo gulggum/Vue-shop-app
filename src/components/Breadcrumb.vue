@@ -50,7 +50,7 @@ const breadcrumb = computed<BreadcrumbItem[]>(() => {
       },
     ];
   }
-  console.log("id:", routeId.value, "category:", routeCategory.value);
+
   //상세페이지_breadcrumb
   if (routeCategory && routeId) {
     const found = productsStore.products.find(
@@ -71,7 +71,6 @@ const breadcrumb = computed<BreadcrumbItem[]>(() => {
       },
     ];
   }
-  console.log("🥖", breadcrumb.value);
   return [];
 });
 </script>
@@ -102,9 +101,11 @@ const breadcrumb = computed<BreadcrumbItem[]>(() => {
 
 <style scoped>
 .breadcrumb_container {
-  width: 100%;
-  padding: 20px 10px;
+  display: block;
   box-sizing: border-box;
+  width: 100%;
+  padding: 20px 30px;
+  margin-top: 56px;
 }
 
 .breadcrumb {
@@ -127,5 +128,13 @@ const breadcrumb = computed<BreadcrumbItem[]>(() => {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.breadcrumb_link svg {
+  color: gray;
+  opacity: 0.4;
+}
+.breadcrumb_link :hover {
+  color: var(--color-hover);
+  font-weight: 600;
 }
 </style>

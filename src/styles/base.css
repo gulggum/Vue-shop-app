@@ -1,17 +1,24 @@
+/* * {
+  outline: 1px solid red;
+} */
+
 html,
 body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   width: 100vw;
   margin: 0 auto;
-  height: 100%;
-  background-color: #fff;
-  color: #111;
+
   font-size: 1rem;
   box-sizing: border-box;
+  background-color: var(--color-bg);
+  color: var(--color-text);
 }
 
 @media screen and (max-width: 768px) {
   body {
+    font-size: 0.8rem;
+  }
+  button {
     font-size: 0.8rem;
   }
 }
@@ -20,6 +27,11 @@ button {
   cursor: pointer;
   border: none;
   background: none;
+  background-color: none;
   padding: 10px;
   border-radius: 5px;
+}
+button:hover {
+  background-color: var(--color-hover);
+  transition: all 0.5s ease;
 }

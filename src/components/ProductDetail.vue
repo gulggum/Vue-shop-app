@@ -6,6 +6,7 @@ import { onMounted } from "vue";
 import type { Product } from "../api/fetchProduct";
 import { formatUSD } from "../utils/normalizeCategory";
 import { useCartStore } from "../store/cart";
+import StarRating from "./StarRating.vue";
 
 const productsStore = useProductsStore();
 const cartStore = useCartStore();
@@ -42,6 +43,15 @@ const addItem = (product: Product) => {
         <p class="detail_des">{{ product?.description }}</p>
         <div class="ratingBox"></div>
         <div class="detail_price">{{ formatUSD(product?.price ?? 0) }}</div>
+        <div class="star_rating">
+          <StarRating
+            class="star_Icons"
+            v-if="product?.rating?.rate"
+            :rating="product.rating.rate"
+          /><span>{{ product?.rating.rate }} / </span
+          ><span>{{ product?.rating?.count }} 참여</span>
+        </div>
+
         <div class="cartNav_button">
           <button
             class="addCart"
@@ -108,11 +118,20 @@ const addItem = (product: Product) => {
   font-size: 2.6em;
   font-weight: 600;
 }
+.star_rating {
+  padding: 20px 0px;
+  display: flex;
+  align-items: center;
+  font-size: 1.2em;
+  gap: 10px;
+}
 .addCart {
-  background-color: #400bb4;
+  background-color: #570df8;
   color: white;
 }
 .addCart:hover {
+  background-color: #400bb4;
+  transition: all 0.4s ease;
 }
 .goToCart {
   background-color: var(--color-bg);

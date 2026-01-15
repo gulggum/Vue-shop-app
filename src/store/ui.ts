@@ -5,7 +5,7 @@ import { ref } from "vue";
 export const useUiStore = defineStore("ui", () => {
   const isSidebarOpen = ref(false);
   const isDarkTheme = ref(false);
-  const isSearchOpen = ref(false);
+  const isMobileSearchOpen = ref(false);
 
   const toggleSidebar = () => {
     isSidebarOpen.value = !isSidebarOpen.value;
@@ -16,8 +16,8 @@ export const useUiStore = defineStore("ui", () => {
   const toggleTheme = () => {
     isDarkTheme.value = !isDarkTheme.value;
   };
-  const toggleSearchInput = () => {
-    isSearchOpen.value = !isSearchOpen.value;
+  const toggleMobileSearchInput = () => {
+    isMobileSearchOpen.value = !isMobileSearchOpen.value;
   };
 
   return {
@@ -26,7 +26,7 @@ export const useUiStore = defineStore("ui", () => {
     isDarkTheme,
     toggleTheme,
     closeSidebar,
-    isSearchOpen,
-    toggleSearchInput,
+    isMobileSearchOpen,
+    toggleMobileSearchInput,
   };
 });

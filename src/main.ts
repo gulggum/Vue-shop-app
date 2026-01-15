@@ -4,6 +4,7 @@ import App from "./App.vue";
 import { createPinia } from "pinia";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { QueryClient, VueQueryPlugin } from "@tanstack/vue-query";
+import router from "./router/router";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import {
   faShoppingCart,
@@ -12,8 +13,15 @@ import {
   faSun,
   faMagnifyingGlass,
   faChevronRight,
+  faStar,
+  faStarHalfAlt,
 } from "@fortawesome/free-solid-svg-icons";
-import router from "./router/router";
+import {
+  faFacebook,
+  faInstagram,
+  faGithub,
+} from "@fortawesome/free-brands-svg-icons";
+import { faStar as faStarRegular } from "@fortawesome/free-regular-svg-icons";
 
 library.add(
   faShoppingCart,
@@ -21,7 +29,13 @@ library.add(
   faMoon,
   faSun,
   faMagnifyingGlass,
-  faChevronRight
+  faChevronRight,
+  faFacebook,
+  faInstagram,
+  faGithub,
+  faStar,
+  faStarHalfAlt,
+  faStarRegular
 );
 
 const app = createApp(App);

@@ -4,6 +4,7 @@ import digitalImg from "../assets/img/carousel/img_shop_digital.jpeg";
 import groceryImg from "../assets/img/carousel/img_shop_grocery.jpeg";
 import { useSliderStore } from "../store/slider";
 import { onMounted, onUnmounted, ref } from "vue";
+import { RouterLink } from "vue-router";
 
 const sliderStore = useSliderStore();
 const slideCount = 3; //슬라이드 개수
@@ -43,6 +44,7 @@ const items = ref([
   <div class="slideContainer">
     <div class="slider">
       <ul
+        class="slider_wrapper"
         :style="{
           transform: `translateX(-${sliderStore.currentIndex * 100}%)`,
         }"
@@ -52,7 +54,9 @@ const items = ref([
           <div class="slide_info">
             <h3 class="slide_title">{{ item.title }}</h3>
             <p class="slide_text">{{ item.text }}</p>
-            <button class="slide_button">바로가기</button>
+            <router-link :to="`/${item.name}`">
+              <button class="slide_button">바로가기 ➔</button>
+            </router-link>
           </div>
         </li>
       </ul>
@@ -73,28 +77,59 @@ const items = ref([
 
 <style scoped>
 .slider {
-  width: 100vw;
+  width: 100%;
   position: relative;
   overflow: hidden;
-  height: 200px;
+  height: 460px;
+  margin-top: 56px;
+  font-size: 1rem;
 }
-.slider ul {
+
+.slider_wrapper {
   display: flex;
+  height: 100%;
   transition: transform 0.5s ease;
 }
 
 .slide {
   position: relative;
   min-width: 100%;
+  height: 100%;
 }
 .slide_img {
   width: 100%;
-  display: block;
+  object-fit: cover;
 }
 .slide_info {
+  width: 100%;
   position: absolute;
-  left: 0;
-  top: 0;
+  top: 50%;
+  padding: 100px;
+  transform: translate(0, -50%);
+  color: #fff;
+}
+.slide_title {
+  letter-spacing: 1px;
+  font-size: 3em;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+.slide_text {
+  margin-bottom: 10px;
+  font-weight: 500;
+  font-size: 1.5em;
+}
+
+.slide_button {
+  padding: 0.5em 1.5em;
+  border-radius: 5px;
+  color: white;
+  font-weight: 500;
+  background-color: #3d4451;
+  font-size: 1.2em;
+}
+.slide_button:hover {
+  background-color: var(--color-hover);
 }
 
 /* 점 네비게이션 */
@@ -121,5 +156,17 @@ const items = ref([
 
 .dot--active {
   background-color: #333;
+}
+@media screen and (max-width: 768px) {
+  .slider {
+    height: 200px;
+    font-size: 0.5rem;
+  }
+
+  .slide_info {
+    padding: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
 }
 </style>

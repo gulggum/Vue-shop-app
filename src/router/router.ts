@@ -2,8 +2,9 @@ import { createWebHistory, createRouter } from "vue-router";
 import Home from "../views/Home.vue";
 import MainLayout from "../layouts/MainLayout.vue";
 import ProductDetail from "../components/ProductDetail.vue";
-import ListPage from "../views/ListPage.vue";
+import CategoryPage from "../views/CategoryPage.vue";
 import CartPage from "../views/CartPage.vue";
+import NotFound from "../views/NotFound.vue";
 
 const routes = [
   {
@@ -18,7 +19,7 @@ const routes = [
       {
         path: ":category",
         name: "category",
-        component: ListPage,
+        component: CategoryPage,
       },
       {
         path: ":category/:id",
@@ -29,6 +30,11 @@ const routes = [
         path: "cart",
         name: "cartPage",
         component: CartPage,
+      },
+      {
+        path: "/:pathMatch(.*)*",
+        name: "notFoundPage",
+        component: NotFound,
       },
     ],
   },

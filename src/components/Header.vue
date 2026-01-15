@@ -8,14 +8,16 @@ import { CATEGORY_KR } from "../utils/normalizeCategory";
 import { useSearchStore } from "../store/search";
 import type { Product } from "../api/fetchProduct";
 import router from "../router/router";
+import { useCartStore } from "../store/cart";
 
 const uiStore = useUiStore(); //ui토글용
 const productsStore = useProductsStore(); //카테고리 용
 const searchStore = useSearchStore();
+const cartStore = useCartStore();
 
 defineProps<{
-  title: string;
-  products: Product[];
+  title?: string;
+  products?: Product[];
 }>();
 
 onMounted(async () => {
@@ -36,6 +38,8 @@ const filteredProducts = computed(() => {
 const goDetail = (product: Product) => {
   searchStore.clearKeyword();
   router.push(`/${product.topCategory}/${product.id}`);
+  uiStore.isMobileSearchOpen = false;
+  searchStore.keyword = "";
 };
 </script>
 
@@ -46,22 +50,56 @@ const goDetail = (product: Product) => {
         <button class="mobile_menuBarBtn" @click="uiStore.toggleSidebar">
           <font-awesome-icon icon="bars" />
         </button>
-        <h1 class="logo">
-          <router-link to="/">Vue Shop</router-link>
+        <h1>
+          <router-link to="/" class="logo">Vue Shop</router-link>
         </h1>
+        <div class="menu_nav">
+          <ul v-for="category in productsStore.categories">
+            <li
+              class="menu_link"
+              @click="$router.push({ name: 'category', params: { category } })"
+            >
+              {{ CATEGORY_KR[category] }}
+            </li>
+          </ul>
+        </div>
       </div>
 
       <div class="right_area">
         <button class="themeBtn" @click="uiStore.toggleTheme">
           <font-awesome-icon :icon="uiStore.isDarkTheme ? 'moon' : 'sun'" />
         </button>
+        <!-- 모바일전용 검색버튼 -->
+        <button
+          class="mobile_search_button"
+          @click="uiStore.toggleMobileSearchInput"
+        >
+          <font-awesome-icon icon="magnifying-glass" />
+        </button>
+        <!-- Pc버전 검색창 -->
         <div class="search_area">
-          <input class="search_input" type="text" placeholder="검색..." />
-          <button @click="uiStore.toggleSearchInput">
-            <font-awesome-icon icon="magnifying-glass" />
-          </button>
+          <input
+            class="search_input"
+            type="text"
+            placeholder="검색..."
+            v-model="searchStore.keyword"
+          />
+          <ul v-if="searchStore.keyword" class="search_dropdown">
+            <li
+              v-for="product in filteredProducts"
+              @click="goDetail(product)"
+              class="search_list"
+            >
+              {{ product.title }}
+            </li>
+          </ul>
         </div>
-        <button class="cart"><font-awesome-icon icon="shopping-cart" /></button>
+        <button class="cart">
+          <router-link to="/cart">
+            <font-awesome-icon icon="shopping-cart" />
+            <span>{{ cartStore.items.length }}</span></router-link
+          >
+        </button>
       </div>
       <!-- 모바일전용 사이드바 -->
       <div
@@ -71,9 +109,9 @@ const goDetail = (product: Product) => {
       >
         <transition name="slide"
           ><aside v-show="uiStore.isSidebarOpen" class="sidebar" @click.stop>
-            <ul class="menu">
+            <ul>
               <li
-                class="menu_link"
+                class="mobile_menu_link"
                 v-for="category in productsStore.categories"
                 @click="
                   $router.push({ name: 'category', params: { category } });
@@ -87,9 +125,9 @@ const goDetail = (product: Product) => {
         >
       </div>
     </div>
-    <div class="mobile_search_input_area">
+    <!-- 모바일전용 검색창 -->
+    <div class="mobile_search_wrap" v-if="uiStore.isMobileSearchOpen">
       <input
-        v-show="uiStore.isSearchOpen"
         v-model="searchStore.keyword"
         class="mobile_search_input"
         type="text"
@@ -108,58 +146,160 @@ const goDetail = (product: Product) => {
   </header>
 </template>
 
-<style scoped>
+<style>
 header {
-  max-width: 1200px;
-  height: 56px;
-  justify-content: center;
-  margin: 0 auto;
-}
-.header_wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
+  height: 56px;
+  display: flex;
+  justify-content: center;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  z-index: 1000;
+  box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+}
+
+.header_wrapper {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
   height: 56px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: orange;
-  padding: 0 16px;
+  padding: 0 5px;
   box-sizing: border-box;
 }
+
 .left_area {
+  width: auto;
+  height: 100%;
   display: flex;
   align-items: center;
 }
 .right_area {
   width: 40%;
+  height: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
 }
-.search_area {
-  display: flex;
-  align-items: center;
-}
-.mobile_menuBarBtn {
-  margin-right: 10px;
-}
+
 .logo {
+  width: 150px;
   font-size: 1.5em;
   font-weight: 800;
+  padding-right: 10px;
+  height: 56px;
+  line-height: 56px;
 }
+.logo:hover {
+  color: var(--color-hover);
+  transition: all 0.4s ease;
+}
+
+/* pc용 메뉴 */
+.menu_nav {
+  width: 250px;
+  height: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.menu_link {
+  padding: 10px 15px;
+  border-radius: 5px;
+}
+.menu_link:hover {
+  background-color: var(--color-hover);
+  transition: all 0.4s ease;
+  cursor: pointer;
+}
+
+button svg {
+  color: var(--color-text);
+  font-size: 1.5em;
+}
+
+/* cart 뱃지 */
+.cart {
+  position: relative;
+}
+
+.cart span {
+  position: absolute;
+  top: -3px;
+  right: 0;
+  background: red;
+  color: white;
+  border-radius: 50%;
+  padding: 3px 7px;
+  font-size: 12px;
+  z-index: 10000;
+}
+
 /* 검색창 리스트 */
+
+.search_area {
+  position: relative;
+  width: 300px;
+  display: flex;
+  align-items: center;
+}
 .search_input {
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+}
+
+.search_dropdown {
+  position: absolute;
+  width: 100%;
+  top: 47px;
+  height: 300px;
+  background-color: var(--color-bg);
+  z-index: 2000;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+}
+.search_list {
+  width: 100%;
+  padding: 15px 5px;
+  cursor: pointer;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-bottom: dotted 1px var(--color-line);
+}
+.search_list:hover {
+  background-color: var(--color-hover);
+  transition: all 0.4s ease;
+}
+.mobile_search_button {
   display: none;
 }
 
-.mobile_search_input_area {
-  position: relative;
-}
-.mobile_search_input {
-  box-sizing: border-box;
+.mobile_search_wrap {
   position: absolute;
   width: 100%;
-  height: 40px;
+  top: 56px;
+}
+
+.mobile_search_input {
+  position: relative;
+  width: 100%;
   z-index: 5;
+  border: none;
+  background-color: var(--color-line);
+  padding: 14px;
+  display: none;
 }
 
 .mobile_search_dropdown {
@@ -167,15 +307,26 @@ header {
   top: 40px;
   width: 100%;
   height: 300px;
-  background-color: wheat;
+  background-color: var(--color-bg);
   z-index: 2000;
+  display: none;
+  box-sizing: border-box;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 .mobile_search_list {
-  padding: 10px 5px;
+  width: 100%;
+  padding: 15px 5px;
   cursor: pointer;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-bottom: dotted 1px var(--color-line);
 }
-.mobile_search_list :hover {
+.mobile_search_list:hover {
   background-color: var(--color-hover);
+  transition: all 0.4s ease;
 }
 
 /* 사이드바 */
@@ -198,7 +349,8 @@ header {
 }
 
 .sidebar_overlay {
-  position: absolute;
+  position: fixed;
+  inset: 0;
   width: 100%;
   height: 100%;
   top: 0;
@@ -209,12 +361,67 @@ header {
   z-index: 1000;
 }
 .sidebar {
-  width: 200px;
+  position: fixed;
+  width: 250px;
   height: 100%;
-  background-color: white;
+  background-color: var(--color-bg);
+  color: var(--color-text);
   padding: 2em;
+  z-index: 1002;
 }
-.menu_link {
+.mobile_menu_link {
   cursor: pointer;
+  padding: 1.2em 1em;
+  border-radius: 5px;
+  font-size: 1.5em;
+  font-weight: 500;
+}
+.mobile_menu_link:hover {
+  background-color: var(--color-hover);
+  transition: all 0.4s ease;
+}
+
+/* 모바일용 햄버거버튼 */
+.mobile_menuBarBtn {
+  display: none;
+  margin-right: 10px;
+  color: var(--color-text);
+}
+
+@media (max-width: 768px) {
+  button {
+    padding: 5px;
+  }
+  button svg {
+    font-size: 1.3em;
+  }
+  .mobile_menuBarBtn {
+    display: block;
+  }
+  .menu_nav {
+    display: none;
+  }
+  .search_area {
+    display: none;
+  }
+  .search_input {
+    display: none;
+  }
+  .search_dropdown {
+    display: none;
+  }
+  .mobile_search_button {
+    display: block;
+  }
+  .mobile_search_input {
+    display: block;
+  }
+  .mobile_search_dropdown {
+    display: block;
+  }
+  .cart span {
+    padding: 2px 4px;
+    font-size: 10px;
+  }
 }
 </style>
