@@ -94,10 +94,13 @@ const goDetail = (product: Product) => {
             </li>
           </ul>
         </div>
+        <!-- cart버튼 -->
         <button class="cart">
           <router-link to="/cart">
             <font-awesome-icon icon="shopping-cart" />
-            <span>{{ cartStore.items.length }}</span></router-link
+            <span v-if="cartStore.items.length > 0">{{
+              cartStore.items.length
+            }}</span></router-link
           >
         </button>
       </div>
@@ -170,7 +173,6 @@ header {
   align-items: center;
   justify-content: space-between;
   padding: 0 5px;
-  box-sizing: border-box;
 }
 
 .left_area {
@@ -180,11 +182,12 @@ header {
   align-items: center;
 }
 .right_area {
-  width: 40%;
+  width: 30%;
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-right: 10px;
 }
 
 .logo {
@@ -226,6 +229,7 @@ button svg {
 /* cart 뱃지 */
 .cart {
   position: relative;
+  box-sizing: border-box;
 }
 
 .cart span {

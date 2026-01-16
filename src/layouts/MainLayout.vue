@@ -11,7 +11,7 @@ const route = useRoute();
   <Header />
   <Slider v-if="route.path === '/'" />
   <main>
-    <Breadcrumb v-if="route.name ! == 'notFoundPage'" />
+    <Breadcrumb v-if="route.name !== 'notFoundPage'" />
     <RouterView />
   </main>
   <Footer />

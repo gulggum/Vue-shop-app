@@ -5,6 +5,7 @@ import { createPinia } from "pinia";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { QueryClient, VueQueryPlugin } from "@tanstack/vue-query";
 import router from "./router/router";
+import piniaPersist from "pinia-plugin-persistedstate";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import {
   faShoppingCart,
@@ -41,6 +42,7 @@ library.add(
 const app = createApp(App);
 const pinia = createPinia();
 const queryClient = new QueryClient();
+pinia.use(piniaPersist);
 
 app.use(router);
 app.use(VueQueryPlugin, { queryClient });

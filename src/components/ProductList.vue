@@ -70,7 +70,7 @@ defineProps<{
   }
 }
 .product_img_box {
-  height: 300px;
+  height: 200px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -88,10 +88,16 @@ defineProps<{
 }
 
 .product_name {
+  width: 100%;
   padding: 5px 10px;
   font-weight: 500;
   line-height: 1.2;
   font-size: 0.9em;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .product_price {
   font-weight: 600;

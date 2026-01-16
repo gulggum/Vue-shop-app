@@ -7,7 +7,6 @@ body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   width: 100vw;
   margin: 0 auto;
-
   font-size: 1rem;
   box-sizing: border-box;
   background-color: var(--color-bg);

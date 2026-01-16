@@ -41,13 +41,15 @@ Vue 3 + TypeScript + Vite 기반 쇼핑몰 프로젝트
 
 - **데이터 상태 관리(store폴더)**
 
-  - @tanstack/vue-query를 활용한 서버 상태 관리
+  - **@tanstack/vue-query**를 활용한 서버 상태 관리
     - 상품 목록 /상품 상세 데이터 fetch
     - 쿼리 캐싱을 통한 불필요한 API요청 방지(vue-query의 핵심기능)
     - 에러 발생 시 예외 처리
-  - Pinia를 활용한 클라이언트 상태 관리
+  - **Pinia**를 활용한 클라이언트 상태 관리
     - 장바구니, 검색상태,ui상태, 슬라이더 상태 관리
     - composition API기반 defineStore 방식 사용
+  - **Pinia PersistedState**를 사용해 장바구니 및 검색 기록을 로컬 스토리지에 저장
+    - 페이지 새로고침/재방문 시 상태 유지
 
 - **라우터 & 레이아웃**
   - Vue Router 기반 페이지 라우팅
@@ -80,12 +82,13 @@ Vue 3 + TypeScript + Vite 기반 쇼핑몰 프로젝트
 - **테마 관리(Light/Dark)**
   - CSS Variables와 data-theme 속성을 사용해 라이트/다크 테마를 전역으로 관리
 - **UI / UX**
-  - 반응형 레이아웃 (모바일,PC버전)
+  - 반응형 레이아웃 (모바일,PC버전) - Pinia 상태를 감시(`watch`)해 `<html data-theme="…">` 속성을 변경하는 방식
   - 접근성을 고려한 버튼 및 네비게이션 구성
 - **유틸리티 함수 분리**
   - 공통 비즈니스 로직을 utils 폴더로 분리하여 재사용성 및 유지보수성 개선
   - 카테고리 정규화 및 다국어 대응 처리
   - 가격 포맷팅 로직 공통화
+-
 
 ## 트러블 슈팅 기록
 
